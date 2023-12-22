@@ -41,20 +41,21 @@ if [ "$WEB_UPGRADE" = false ]; then
   clear;
 
   # Set color of logo
-  tput setaf 6
+  tput setaf 0
   tput bold
 
   cat << EOF
-  
-       d8888            888     888
-      d88888            888     888       888
-     d88P888            888     888
-    d88P 888  88888b.   888888  88888b.   888   8888b.   .d8888b
-   d88P  888  888 '88b  888     888 '88b  888      '88b  88K
-  d88P   888  888  888  888     888  888  888  .d888888  'Y8888b.
- d8888888888  888  888  Y88b.   888  888  888  888  888       X88
-d88P     888  888  888   Y888   888  888  888  'Y888888   88888P'
-==================================================================
+
+8888888  .d8888b.  88888888888 d8b
+  888   d88P  Y88b     888     Y8P
+  888   888    888     888  
+  888   888            888     888 88888b.d88b.  88888b.d88b.   .d88b.  888d888 .d8888b
+  888   888            888     888 888 "888 "88b 888 "888 "88b d8P  Y8b 888P"   88K 
+  888   888    888     888     888 888  888  888 888  888  888 88888888 888     "Y8888b.
+  888   Y88b  d88P     888     888 888  888  888 888  888  888 Y8b.     888          X88
+8888888  "Y8888P"      888     888 888  888  888 888  888  888  "Y8888  888      88888P'
+                                                                                        
+=========================================================================================
 
 
 EOF
@@ -132,10 +133,10 @@ fi
 if [ -z "${REPOSITORY}" ]; then
   if [ "$WEB_UPGRADE" = false ]; then
     set -x
-    REPOSITORY=${1:-https://github.com/screenly/anthias.git}
+    REPOSITORY=${1:-https://github.com/BrandoV1/Narrowcast.git}
   else
     set -e
-    REPOSITORY=https://github.com/screenly/anthias.git
+    REPOSITORY=https://github.com/BrandoV1/Narrowcast.git
   fi
 fi
 
@@ -192,7 +193,7 @@ cd /home/${USER}/screenly/ansible
 sudo -E -u ${USER} ansible-playbook site.yml "${EXTRA_ARGS[@]}"
 
 # Pull down and install containers
-/home/${USER}/screenly/bin/upgrade_containers.sh
+sudo -u ${USER} /home/${USER}/screenly/bin/upgrade_containers.sh
 
 sudo apt-get autoclean
 sudo apt-get clean
@@ -253,7 +254,15 @@ fi
 echo "Installation completed."
 
 if [ "$WEB_UPGRADE" = false ]; then
-  read -p "You need to reboot the system for the installation to complete. Would you like to reboot now? (y/N)" -n 1 -r -s REBOOT && echo
+  POST_INSTALL_MESSAGE=""
+
+  if [ -f /var/run/reboot-required ]; then
+    POST_INSTALL_MESSAGE="Please reboot and run /home/$USER/screenly/bin/upgrade_containers.sh to complete the installation"
+  else
+    POST_INSTALL_MESSAGE="You need to reboot the system for the installation to complete"
+  fi
+
+  read -p "${POST_INSTALL_MESSAGE}. Would you like to reboot now? (y/N)" -n 1 -r -s REBOOT && echo
   if [ "$REBOOT" == 'y' ]; then
     sudo reboot
   fi
