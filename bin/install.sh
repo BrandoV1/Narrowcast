@@ -133,10 +133,10 @@ fi
 if [ -z "${REPOSITORY}" ]; then
   if [ "$WEB_UPGRADE" = false ]; then
     set -x
-    REPOSITORY=${1:-https://github.com/BrandoV1/Narrowcast/tree/1729/.github}
+    REPOSITORY=${1:-https://github.com/BrandoV1/Narrowcast/tree/1729/bin.github}
   else
     set -e
-    REPOSITORY=https://github.com/BrandoV1/Narrowcast/tree/1729/.github
+    REPOSITORY=https://github.com/BrandoV1/Narrowcast/tree/1729/bin.github
   fi
 fi
 
