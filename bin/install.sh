@@ -133,10 +133,10 @@ fi
 if [ -z "${REPOSITORY}" ]; then
   if [ "$WEB_UPGRADE" = false ]; then
     set -x
-    REPOSITORY=${1:-https://github.com/BrandoV1/Narrowcast/tree/1729/bin.github}
+    REPOSITORY=${1:-https://github.com/BrandoV1/Narrowcast}
   else
     set -e
-    REPOSITORY=https://github.com/BrandoV1/Narrowcast/tree/1729/bin.github
+    REPOSITORY=https://github.com/BrandoV1/Narrowcast
   fi
 fi
 
@@ -173,7 +173,7 @@ fi
 
 # Install Ansible from requirements file.
 if [ "$BRANCH" = "master" ]; then
-    ANSIBLE_VERSION=$(curl -s https://github.com/BrandoV1/Narrowcast$BRANCH/requirements/requirements.host.txt | grep ansible)
+    ANSIBLE_VERSION=$(curl -s https://raw.githubusercontent.com/BrandoV1/Narrowcast/$BRANCH/requirements/requirements.host.txt | grep ansible)
 else
     ANSIBLE_VERSION=ansible==2.8.8
 fi
@@ -181,7 +181,9 @@ fi
 # @TODO
 # Remove me later. Cryptography 38.0.3 won't build at the moment.
 # See https://github.com/screenly/anthias/issues/1654
-sudo pip install cryptography==41.0.5
+sudo pip install cryptography==38.0.2
+
+sudo pip install "$ANSIBLE_VERSION"
 
 sudo -u ${USER} ansible localhost \
     -m git \
