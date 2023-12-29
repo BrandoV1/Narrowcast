@@ -29,6 +29,13 @@ while getopts ":w:b:n:s:" arg; do
     esac
 done
 
+if [ "$WEB_UPGRADE" = false ]; then
+
+  # Make sure the command is launched interactive.
+  if ! [ -t 0  ]; then
+    echo -e "Detected old installation command. Please use:\n$ bash <(curl -sL https://github.com/BrandoV1/Narrowcast)"
+    exit 1
+  fi
 
   # clear screen
   clear;
