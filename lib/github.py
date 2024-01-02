@@ -51,7 +51,7 @@ def remote_branch_available(branch):
 
     try:
         resp = requests_get(
-            'https://api.github.com/repos/screenly/anthias/branches',
+            'https://api.github.com/repos/BrandoV1/Narrowcast/branches',
             headers={
                 'Accept': 'application/vnd.github.loki-preview+json',
             },
@@ -95,7 +95,7 @@ def fetch_remote_hash():
             return None, False
         try:
             resp = requests_get(
-                'https://api.github.com/repos/screenly/anthias/git/refs/heads/{}'.format(branch)
+                'https://api.github.com/repos/BrandoV1/Narrowcast/git/refs/heads/{}'.format(branch)
             )
             resp.raise_for_status()
         except exceptions.RequestException as exc:
