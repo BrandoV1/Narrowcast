@@ -41,7 +41,7 @@ if [ "$WEB_UPGRADE" = false ]; then
   clear;
 
   # Set color of logo
-  tput setaf 0
+  tput setaf 1
   tput bold
 
   cat << EOF
